@@ -1,17 +1,24 @@
-import sys, tempfile, os
-from subprocess import call
-from curses.ascii import ctrl
+import argparse
+import os
+import sys
+import tempfile
+import subprocess
 
-ESC = ctrl(']')
 EDITOR = os.environ.get('EDITOR', 'vim')
+FIND_REPLACE_STR = ':%s/{0}/{1}/{2}'
 
-initial_message = "hello world"
+def find_replace_string(find, replace, args):
+    return FIND_REPLACE_STR.format(find, replace, args)
 
-with tempfile.NamedTemporaryFile(suffix=".tmp") as tf:
-    tf.write('hello world')
-    tf.flush()
-    call([EDITOR, '-c' ':%s/hello/bye/gc', '+set backupcopy=yes', tf.name])
-    tf.seek(0)
-    edited_message = tf.read()
-    print edited_message
+def edit_file(file_name, format_string):
+    with open(file_name) as f:
+        subprocess.call([EDITOR, '-c', format_string, '+set backupcopy=yes', f.name])
+        f.seek(0)
+        edited_message = f.read()
+        print edited_message
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Refactor your codebase with vi/m.')
+    args = parser.parse_args()
+    edit_file('test.txt', find_replace_string("hello", "goodbye", "gc"))
 
