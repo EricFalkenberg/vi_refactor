@@ -19,6 +19,17 @@ def edit_file(file_name, format_string):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Refactor your codebase with vi/m.')
+    parser.add_argument('find_pattern', metavar='find_pattern', type=str,
+                        help='value to refactor')
+    parser.add_argument('replace_pattern', metavar='replace_pattern', type=str,
+                        help='substitution value')
+    parser.add_argument('directory', metavar='directory(s)', type=str, 
+                        nargs='*',  default='.', 
+                        help='directory(s) to refactor files in (default: ./)')
     args = parser.parse_args()
-    edit_file('test.txt', find_replace_string("hello", "goodbye", "gc"))
+    arg_dict = vars(args)
+    format_string = find_replace_string(arg_dict['find_pattern'],
+                                        arg_dict['replace_pattern'],
+                                        'gc')
+    edit_file('test_files/test.txt', format_string)
 
