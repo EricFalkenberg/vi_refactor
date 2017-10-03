@@ -1,10 +1,14 @@
 import argparse
+import configparser
 import os
 import sys
 import tempfile
 import subprocess
 
-EDITOR = os.environ.get('EDITOR', 'vim')
+SETTINGS = configparser.ConfigParser()
+SETTINGS.read(".vi_refactor")
+
+EDITOR = os.environ.get('EDITOR', SETTINGS.get('Editor', 'Name'))
 FIND_REPLACE_STR = ':%s/{0}/{1}/{2}'
 
 def find_replace_string(find, replace, args):
@@ -32,4 +36,3 @@ if __name__ == '__main__':
                                         arg_dict['replace_pattern'],
                                         'gc')
     edit_file('test_files/test.txt', format_string)
-
