@@ -1,3 +1,4 @@
+#!/usr/bin/python
 import argparse
 import configparser
 import os
