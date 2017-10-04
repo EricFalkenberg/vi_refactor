@@ -25,10 +25,16 @@ def edit_file(file_name, format_string):
 def is_ignored_file(name):
     return bool(re.match("\..+", name))
 
+def is_valid_file(path, fname):
+    return os.path.isfile(os.path.join(path, fname)) and not is_ignored_file(fname)
+
+def is_valid_dir(path, dirname):
+    return os.path.isdir(os.path.join(path, dirname)) and not is_ignored_file(dirname)
+
+def flatten(l):
+    return [item for sublist in l for item in sublist]
+
 def find_relevant_files(dir):
-    flatten       = lambda l: [item for sublist in l for item in sublist]
-    is_valid_file = lambda p, f: os.path.isfile(os.path.join(p, f)) and not is_ignored_file(f)
-    is_valid_dir  = lambda p, d: os.path.isdir(os.path.join(p, d)) and not is_ignored_file(d)
     items = os.listdir(dir)
     files = [os.path.join(dir, f) for f in items if is_valid_file(dir, f)]
     dirs  = [os.path.join(dir, d) for d in items if is_valid_dir(dir, d)]
