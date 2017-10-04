@@ -1,6 +1,7 @@
 import argparse
 import configparser
 import os
+import re
 import sys
 import tempfile
 import subprocess
@@ -21,6 +22,19 @@ def edit_file(file_name, format_string):
         edited_message = f.read()
         print edited_message
 
+def is_ignored_file(name):
+    return bool(re.match("\..+", name))
+
+def find_relevant_files(dir):
+    flatten       = lambda l: [item for sublist in l for item in sublist]
+    is_valid_file = lambda p, f: os.path.isfile(os.path.join(p, f)) and not is_ignored_file(f)
+    is_valid_dir  = lambda p, d: os.path.isdir(os.path.join(p, d)) and not is_ignored_file(d)
+    items = os.listdir(dir)
+    files = [os.path.join(dir, f) for f in items if is_valid_file(dir, f)]
+    dirs  = [os.path.join(dir, d) for d in items if is_valid_dir(dir, d)]
+    files.extend(flatten(map(find_relevant_files, dirs)))
+    return files
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Refactor your codebase with vi/m.')
     parser.add_argument('find', metavar='find', type=str,
@@ -35,4 +49,5 @@ if __name__ == '__main__':
     format_string = find_replace_string(arg_dict['find'],
                                         arg_dict['replace'],
                                         'gc')
-    edit_file('test_files/test.txt', format_string)
+    valid_files = find_relevant_files(arg_dict['directory'])
+    map(lambda fname: edit_file(fname, format_string), valid_files)
