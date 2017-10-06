@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from distutils.core import setup
+from setuptools import setup
 
 setup(name="Vi Refactor",
     version="0.0.2",
@@ -8,5 +8,7 @@ setup(name="Vi Refactor",
     author="Eric Falkenberg",
     author_email="exf4789@rit.edu",
     url="https://ericfalkenberg.github.io/vi_refactor/",
-    packages=['distutils', 'argparse', 'configparser'],
+    packages=['vi_refactor'],
+    package_data={'vi_refactor' : '.vi_refactor'},
+    scripts=['vi_refactor.py'],
 )  
