@@ -1,4 +1,4 @@
-## Welcome to GitHub Pages
+## Vi Refactor
 
 You can use the [editor on GitHub](https://github.com/EricFalkenberg/vi_refactor/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
 
