@@ -7,6 +7,7 @@ import sys
 import tempfile
 import subprocess
 
+DEVNULL  = open(os.devnull, 'w')
 SETTINGS = configparser.ConfigParser()
 SETTINGS.read(".vi_refactor")
 
@@ -21,7 +22,6 @@ def edit_file(file_name, format_string):
         subprocess.call([EDITOR, '-c', format_string, '+set backupcopy=yes', f.name])
         f.seek(0)
         edited_message = f.read()
-        print edited_message
 
 def is_ignored_file(name):
     return bool(re.match("\..+", name))
@@ -42,6 +42,9 @@ def find_relevant_files(dir):
     files.extend(flatten(map(find_relevant_files, dirs)))
     return files
 
+def file_contains_search_string(fname, search_string):
+    return subprocess.call(['grep', search_string, fname], stdout=DEVNULL) == 0
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Refactor your codebase with vi/m.')
     parser.add_argument('find', metavar='find', type=str,
@@ -57,4 +60,5 @@ if __name__ == '__main__':
                                         arg_dict['replace'],
                                         'gc')
     valid_files = find_relevant_files(arg_dict['directory'])
+    valid_files = filter(lambda f: file_contains_search_string(f, arg_dict['find']), valid_files)
     map(lambda fname: edit_file(fname, format_string), valid_files)
