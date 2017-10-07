@@ -14,6 +14,6 @@ setup(name="viref",
     ],
     entry_points='''
         [console_scripts]
-        viref=viref:cli
+        viref=src.viref:cli
     ''',
 )  

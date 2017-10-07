@@ -22,6 +22,7 @@ def cli(ctx, editor):
 @click.pass_obj
 def rename(config, find, replace, directory):
     """Rename all instances of FIND with REPLACE."""
+    click.echo("Finding relevant files...")
     format_string = cmd_rename.find_replace_string(find, replace, 'gc')
     valid_files   = cmd_rename.find_relevant_files(directory)
     valid_files   = filter(lambda f: cmd_rename.file_contains_search_string(f, find), valid_files)
