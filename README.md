@@ -7,5 +7,5 @@ Vi Refactor aims to emulate the refactoring tools found in most modern IDEs.
 As of now, Vi Refactor is only OSX compatible. Installation can be done with brew.
 
 ```bash
-brew install vi_refactor
+brew install viref 
 ```
