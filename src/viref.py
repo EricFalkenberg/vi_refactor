@@ -10,7 +10,7 @@ class Config(object):
         this.editor = editor
 
 @click.group()
-@click.option('--editor', default='vim') 
+@click.option('--editor', default='vim', type=click.Choice(['vi', 'vim'])) 
 @click.pass_context
 def cli(ctx, editor):
     ctx.obj = Config(editor)
