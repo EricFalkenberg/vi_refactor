@@ -11,6 +11,7 @@ setup(name="viref",
     py_modules=['viref'],
     install_requires=[
         'click',
+        'javalang',
     ],
     entry_points='''
         [console_scripts]

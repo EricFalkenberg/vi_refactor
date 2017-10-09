@@ -1,6 +1,5 @@
 #!/usr/bin/python
 import click
-import configparser
 import os
 from commands import cmd_rename
 
