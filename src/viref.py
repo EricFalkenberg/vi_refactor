@@ -37,6 +37,7 @@ def rename(config, find, replace, directory):
 @click.option('--lang', default='java', type=click.Choice(['java']))
 @click.argument('directory', default='.', type=click.Path(exists=True, resolve_path=True))
 def analyze(lang, directory):
+    """Find redundant code and unused variables."""
     raise NotImplementedError()
 
 if __name__ == '__main__':
